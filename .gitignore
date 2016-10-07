@@ -1,4 +1,5 @@
 .idea/
 Axelbib/__pycache__/
 db.sqlite3
-
+library/__pycache__/
+library/migrations/
