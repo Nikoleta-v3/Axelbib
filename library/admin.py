@@ -1,8 +1,9 @@
 from django.contrib import admin
 
-from .models import Article, Author, Year, Label
+from .models import Article, Author, Year, Label, Strategies
 
 admin.site.register(Article)
 admin.site.register(Author)
 admin.site.register(Year)
 admin.site.register(Label)
+admin.site.register(Strategies)

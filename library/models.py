@@ -3,10 +3,10 @@ from django.db import models
 
 class Author(models.Model):
     """A class for the authors"""
-    author = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
 
     def __str__(self):
-        return "{}".format(self.author)
+        return self.name
 
 
 class Year(models.Model):
@@ -22,11 +22,16 @@ class Label(models.Model):
     label = models.CharField(max_length=100)
 
     def __str__(self):
-        return "{}".format(self.label)
+        return self.label
 
 
-# class Strategies(models.Model):
-#    """A class for the strategies"""
+class Strategies(models.Model):
+    """A class for the list of strategies"""
+    strategy_name = models.CharField(max_length=300, unique=True)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.strategy_name
 
 
 class Article(models.Model):
@@ -40,19 +45,21 @@ class Article(models.Model):
       - abstract: Abstract (TextField)
       - key: A unique citation (CharField)
       - labels: Labels for both the tournament type and the strategies (CharField)
-      - num_pages: Number of pages (IntegerField)
+      - pages: Number of pages (IntegerField)
       - journal: Journal (TextField)
-      - isbn: ISBN (CharField)
+      - ISBN: ISBN (CharField)
       """
     title = models.TextField(blank=True)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, default="Empty")
-    date = models.ForeignKey(Year, on_delete=models.CASCADE, default="Empty")
-    abstract = models.TextField()
-    key = models.CharField(blank=True, unique=True, max_length=10)
-    labels = models.ForeignKey(Label, on_delete=models.CASCADE, default="Empty")
-    num_pages = models.CharField(max_length=4, blank=True)
+    author = models.ManyToManyField(Author)
+    date = models.ForeignKey(Year)
+    abstract = models.TextField(blank=True)
+    key = models.CharField(unique=True, max_length=20)
+    labels = models.ManyToManyField(Label)
+    pages = models.CharField(max_length=10, blank=True)
     journal = models.TextField(blank=True)
-    isbn = models.CharField(unique=True, max_length=13, blank=True)
+    ISBN = models.CharField(max_length=13, blank=True)
+    notes = models.TextField(blank=True)
+    list_strategies = models.ManyToManyField(Strategies, blank=True)
 
     def __str__(self):
        return "{} - {}".format(self.key, self.title)
