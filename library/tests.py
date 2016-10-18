@@ -1,4 +1,6 @@
 from django.test import TestCase
+from hypothesis.extra.django.models import models
+
 from .models import Author, Year, Label, Strategies, Article
 
 import random
@@ -56,6 +58,27 @@ class TestFieldType(TestCase):
             self.assertEqual(type(random_article.journal), str)
             self.assertEqual(type(random_article.ISBN), str)
 
+    def test_with_hypothesis(self):
+        auto_article = models(Article, date=models(Year)).example()
+        auto_article.save()
+
+        auto_author = models(Author).example()
+        auto_label = models(Label).example()
+        auto_strategy = models(Strategies).example()
+
+        self.assertEqual(type(auto_article.title), str)
+        self.assertEqual(type(auto_article.date.year), int)
+        self.assertEqual(type(auto_article.abstract), str)
+        self.assertEqual(type(auto_article.key), str)
+        self.assertEqual(type(auto_article.pages), str)
+        self.assertEqual(type(auto_article.journal), str)
+        self.assertEqual(type(auto_article.ISBN), str)
+
+        self.assertEqual(type(auto_author.name), str)
+        self.assertEqual(type(auto_label.label), str)
+        self.assertEqual(type(auto_strategy.description), str)
+        self.assertLessEqual(len(auto_strategy.strategy_name), 300)
+
 
 class TestNumberOfAppearance(TestCase):
     """A class which test the number of times the individual entities, such as Author, Year, Label etc, are being
@@ -102,6 +125,3 @@ class TestNumberOfAppearance(TestCase):
         self.assertEqual(count_label, 2)
         self.assertEqual(count_a_strategy, 2)
         self.assertEqual(count_b_strategy, 1)
-
-
-
