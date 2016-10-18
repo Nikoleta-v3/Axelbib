@@ -2,7 +2,13 @@ from django.contrib import admin
 
 from .models import Article, Author, Year, Label, Strategies
 
-admin.site.register(Article)
+
+class ArticleAdmin(admin.ModelAdmin):
+    model = Article
+    filter_horizontal = ('author', 'list_strategies', 'labels', )
+
+
+admin.site.register(Article, ArticleAdmin)
 admin.site.register(Author)
 admin.site.register(Year)
 admin.site.register(Label)
