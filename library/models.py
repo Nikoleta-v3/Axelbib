@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator
 
 
 class Author(models.Model):
@@ -11,7 +12,7 @@ class Author(models.Model):
 
 class Year(models.Model):
     """A class for the Years"""
-    year = models.IntegerField()
+    year = models.PositiveIntegerField(unique=True, validators=[MaxValueValidator(9999)])
 
     def __str__(self):
         return "{}".format(self.year)
@@ -28,7 +29,8 @@ class Label(models.Model):
 class Strategies(models.Model):
     """A class for the list of strategies"""
     strategy_name = models.CharField(max_length=300, unique=True)
-    description = models.TextField()
+    description = models.TextField(blank=True)
+    label = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.strategy_name
@@ -62,4 +64,5 @@ class Article(models.Model):
     list_strategies = models.ManyToManyField(Strategies, blank=True)
 
     def __str__(self):
-       return "{} - {}".format(self.key, self.title)
+        return "{} - {}".format(self.key, self.title)
+
