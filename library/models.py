@@ -30,7 +30,7 @@ class Strategies(models.Model):
     """A class for the list of strategies"""
     strategy_name = models.CharField(max_length=300, unique=True)
     description = models.TextField(blank=True)
-    label = models.CharField(max_length=100, blank=True, null=True)
+    implemented = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.strategy_name
