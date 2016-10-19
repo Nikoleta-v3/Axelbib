@@ -3,3 +3,8 @@ Axelbib/__pycache__/
 db.sqlite3
 library/__pycache__/
 library/migrations/
+.hypothesis/
+.ipynb_checkpoints/
+Handeling DB.ipynb
+library/access.py
+

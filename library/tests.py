@@ -1,4 +1,5 @@
 from django.test import TestCase
+from hypothesis import given, settings, HealthCheck
 from hypothesis.extra.django.models import models
 
 from .models import Author, Year, Label, Strategies, Article
@@ -41,26 +42,30 @@ class TestingEntities(TestCase):
 class TestFieldType(TestCase):
     """A class that randomly select an article object from the data base and tests the field types for each parameter"""
 
-    def test_with_hypothesis(self):
-        auto_article = models(Article, date=models(Year)).example()
-        auto_article.save()
+    @settings(suppress_health_check=[HealthCheck.filter_too_much, HealthCheck.too_slow])
+    @given(models(Article, date=models(Year)), models(Author), models(Label), models(Strategies))
+    def test_with_hypothesis(self, article, author, label, strategy):
 
-        auto_author = models(Author).example()
-        auto_label = models(Label).example()
-        auto_strategy = models(Strategies).example()
+        article.author.add(author)
+        article.labels.add(label)
+        article.list_strategies.add(strategy)
 
-        self.assertEqual(type(auto_article.title), str)
-        self.assertEqual(type(auto_article.date.year), int)
-        self.assertEqual(type(auto_article.abstract), str)
-        self.assertEqual(type(auto_article.key), str)
-        self.assertEqual(type(auto_article.pages), str)
-        self.assertEqual(type(auto_article.journal), str)
-        self.assertEqual(type(auto_article.ISBN), str)
+        self.assertTrue(author.article_set.filter(author=author).exists())
+        self.assertTrue(label.article_set.filter(labels=label).exists())
+        self.assertTrue(strategy.article_set.filter(list_strategies=strategy).exists())
 
-        self.assertEqual(type(auto_author.name), str)
-        self.assertEqual(type(auto_label.label), str)
-        self.assertEqual(type(auto_strategy.description), str)
-        self.assertLessEqual(len(auto_strategy.strategy_name), 300)
+        self.assertEqual(type(article.title), str)
+        self.assertEqual(type(article.date.year), int)
+        self.assertEqual(type(article.abstract), str)
+        self.assertEqual(type(article.key), str)
+        self.assertEqual(type(article.pages), str)
+        self.assertEqual(type(article.journal), str)
+        self.assertEqual(type(article.ISBN), str)
+
+        self.assertEqual(type(author.name), str)
+        self.assertEqual(type(label.label), str)
+        self.assertEqual(type(strategy.description), str)
+        self.assertLessEqual(len(strategy.strategy_name), 300)
 
 
 class TestNumberOfAppearance(TestCase):

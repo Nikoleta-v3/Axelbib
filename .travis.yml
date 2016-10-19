@@ -1,0 +1,17 @@
+language: python
+python:
+    - "3.5"
+
+# cache:
+#   directories:
+#       - $TRAVIS_BUILD_DIR/.hypothesis
+
+
+install: "pip install -r requirements.txt"
+
+before_script:
+    - python3 manage.py makemigrations library
+    - python3 manage.py migrate
+
+script: "python3 manage.py test library"
+
