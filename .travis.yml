@@ -1,0 +1,14 @@
+language: python
+python:
+    - 3.5
+
+cache:
+    directories:
+	- $TRAVIS_BUILD_DIR/.hypothesis
+
+
+install:
+   - pip install requirements.txt
+script:
+   - python3 manage.py test library
+
