@@ -3,13 +3,6 @@ from hypothesis.extra.django.models import models
 
 from .models import Author, Year, Label, Strategies, Article
 
-import random
-
-bd_size = len(Article.objects.all()) - 1                               # size of data set
-random_entry = random.randint(1, bd_size)                              # a random entity id
-random_article = Article.objects.get(id=random_entry)                  # a random article
-random_article_date = Article.objects.get(id=random_entry).date.year   # & date of that article
-
 
 class TestingEntities(TestCase):
     """A class which tests whether the parameters are being passed correctly"""
@@ -47,16 +40,6 @@ class TestingEntities(TestCase):
 
 class TestFieldType(TestCase):
     """A class that randomly select an article object from the data base and tests the field types for each parameter"""
-
-    def test_types(self):
-        if bd_size:
-            self.assertEqual(type(random_article.title), str)
-            self.assertEqual(type(random_article_date), int)
-            self.assertEqual(type(random_article.abstract), str)
-            self.assertEqual(type(random_article.key), str)
-            self.assertEqual(type(random_article.pages), str)
-            self.assertEqual(type(random_article.journal), str)
-            self.assertEqual(type(random_article.ISBN), str)
 
     def test_with_hypothesis(self):
         auto_article = models(Article, date=models(Year)).example()
@@ -125,3 +108,4 @@ class TestNumberOfAppearance(TestCase):
         self.assertEqual(count_label, 2)
         self.assertEqual(count_a_strategy, 2)
         self.assertEqual(count_b_strategy, 1)
+
