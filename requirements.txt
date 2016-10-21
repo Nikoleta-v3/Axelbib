@@ -2,4 +2,6 @@ django
 hypothesis
 faker
 pytz
-rest_framework
+djangorestframework
+markdown
+django-filter
