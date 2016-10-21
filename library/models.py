@@ -62,6 +62,7 @@ class Article(models.Model):
     # ISBN = models.CharField(max_length=13, blank=True)
     notes = models.TextField(blank=True)
     list_strategies = models.ManyToManyField(Strategies, blank=True)
+    read = models.BooleanField(blank=True, default=False)
 
     def __str__(self):
         return "{} - {}".format(self.key, self.title)
