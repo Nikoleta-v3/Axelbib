@@ -7,4 +7,6 @@ library/migrations/
 .ipynb_checkpoints/
 Handeling DB.ipynb
 library/access.py
+password.py
+json&pandas.ipynb
 
