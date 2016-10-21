@@ -15,7 +15,7 @@ class TestingEntities(TestCase):
 
         # setting up the article
         article = Article(date=year, title='A simple title', abstract='Blank', key='Key', pages='1-2',
-                          journal='A Journal', ISBN='123456789')
+                          journal='A Journal')
         article.save()
         article.author.add(axel)
         article.labels.add(label)
@@ -35,7 +35,6 @@ class TestingEntities(TestCase):
         self.assertEqual(article.labels.all()[0], label)
         self.assertEqual(article.pages, '1-2')
         self.assertEqual(article.journal, 'A Journal')
-        self.assertEqual(article.ISBN, '123456789')
         self.assertEqual(article.list_strategies.all()[0], strategy)
 
 
@@ -60,7 +59,7 @@ class TestFieldType(TestCase):
         self.assertEqual(type(article.key), str)
         self.assertEqual(type(article.pages), str)
         self.assertEqual(type(article.journal), str)
-        self.assertEqual(type(article.ISBN), str)
+        self.assertEqual(type(article.read), bool)
 
         self.assertEqual(type(author.name), str)
         self.assertEqual(type(label.label), str)

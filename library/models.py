@@ -59,7 +59,6 @@ class Article(models.Model):
     labels = models.ManyToManyField(Label)
     pages = models.CharField(max_length=10, blank=True)
     journal = models.TextField(blank=True)
-    # ISBN = models.CharField(max_length=13, blank=True)
     notes = models.TextField(blank=True)
     list_strategies = models.ManyToManyField(Strategies, blank=True)
     read = models.BooleanField(blank=True, default=False)
