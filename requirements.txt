@@ -5,3 +5,4 @@ pytz
 djangorestframework
 markdown
 django-filter
+beautifulsoup4
