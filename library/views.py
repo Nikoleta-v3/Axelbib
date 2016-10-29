@@ -1,6 +1,6 @@
-from library.models import Article, Author, Year
+from library.models import Article, Author, Year, Label, Strategies
 from rest_framework import viewsets
-from .serializers import ArticleSerializer, AuthorSerializer, YearSerializer
+from .serializers import *
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
@@ -25,3 +25,19 @@ class YearViewSet(viewsets.ModelViewSet):
     """
     queryset = Year.objects.all().order_by('year')
     serializer_class = YearSerializer
+
+
+class LabelViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Label.objects.all()
+    serializer_class = LabelsSerializer
+
+
+class StrategiesViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Strategies.objects.all()
+    serializer_class = StrategiesSerializer

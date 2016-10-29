@@ -7,6 +7,8 @@ router = routers.DefaultRouter()
 router.register(r'article', views.ArticleViewSet)
 router.register(r'author', views.AuthorViewSet)
 router.register(r'year', views.YearViewSet)
+router.register(r'label', views.LabelViewSet)
+router.register(r'strategies', views.StrategiesViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
