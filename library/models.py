@@ -4,7 +4,7 @@ from django.core.validators import MaxValueValidator
 
 class Author(models.Model):
     """A class for the authors"""
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200, )
 
     def __str__(self):
         return self.name
@@ -12,7 +12,7 @@ class Author(models.Model):
 
 class Year(models.Model):
     """A class for the Years"""
-    year = models.PositiveIntegerField(unique=True, validators=[MaxValueValidator(9999)])
+    year = models.PositiveIntegerField(validators=[MaxValueValidator(9999)])
 
     def __str__(self):
         return "{}".format(self.year)
@@ -28,7 +28,7 @@ class Label(models.Model):
 
 class Strategies(models.Model):
     """A class for the list of strategies"""
-    strategy_name = models.CharField(max_length=300, unique=True)
+    strategy_name = models.CharField(max_length=300)
     description = models.TextField(blank=True)
     implemented = models.CharField(max_length=100, blank=True, null=True)
 
