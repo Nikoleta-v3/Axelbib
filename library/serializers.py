@@ -10,7 +10,6 @@ class AuthorSerializer(serializers.HyperlinkedModelSerializer):
         model = Author
         fields = "__all__"
 
-
     def get_papers_on_this_db(self, obj):
         return obj.article_set.count()
 
@@ -56,20 +55,19 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
 
         # Create the new article attributes
-        author = Author.objects.create(name=validated_data['author'])
         date = Year.objects.create(year=validated_data['date'].get("year"))
-        label = Label.objects.create(label=validated_data['labels'])
-        strategy = Strategies.objects.create(strategy_name=validated_data['list_strategies'])
-
         # create the article
         article = Article(date=date, title=validated_data['title'], abstract=validated_data['abstract'],
                           key=validated_data['key'], pages=validated_data['pages'],
                           journal=validated_data['journal'])
 
         article.save()
-        article.author.add(author)
-        article.labels.add(label)
-        article.list_strategies.add(strategy)
 
+        for author in validated_data['author']:
+            article.author.add(Author.objects.create(name=author))
+        for label in validated_data['labels']:
+            article.labels.add(Label.objects.create(label=label))
+        for strategy in validated_data['list_strategies']:
+            article.list_strategies.add(Strategies.objects.create(strategy_name=strategy))
         return article
 
