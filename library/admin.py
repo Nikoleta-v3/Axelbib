@@ -5,6 +5,7 @@ from .models import Article, Author, Year, Label, Strategies
 
 class ArticleAdmin(admin.ModelAdmin):
     model = Article
+    search_fields = ['title', 'key']
     filter_horizontal = ('author', 'list_strategies', 'labels', )
 
 
