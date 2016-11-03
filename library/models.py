@@ -3,7 +3,13 @@ from django.core.validators import MaxValueValidator
 
 
 class Author(models.Model):
-    """A class for the authors"""
+    """
+    A module for representing an author
+
+    Attributes:
+    ----------
+    - name: Character Field
+    """
     name = models.CharField(max_length=200, )
 
     def __str__(self):
@@ -11,7 +17,14 @@ class Author(models.Model):
 
 
 class Year(models.Model):
-    """A class for the Years"""
+    """
+    A module for representing the year of publication
+
+    Attributes:
+    ----------
+    - year: Positive Integer Field
+
+    """
     year = models.PositiveIntegerField(validators=[MaxValueValidator(9999)])
 
     def __str__(self):
@@ -19,7 +32,16 @@ class Year(models.Model):
 
 
 class Label(models.Model):
-    """A class for the labels"""
+    """
+    A module for representing labels of the article.
+
+    Labels are used mainly by me to categorize the papers
+    I have read. For example, Simple, Noisy, Spatial tournaments.
+
+    Attributes:
+    ----------
+    - label: Char Field
+    """
     label = models.CharField(max_length=100)
 
     def __str__(self):
@@ -27,7 +49,20 @@ class Label(models.Model):
 
 
 class Strategies(models.Model):
-    """A class for the list of strategies"""
+    """
+    A module for representing the strategies used by the
+    author for his/her article research.
+
+    Attributes:
+    ----------
+    - strategy_name: Char Field
+            the name of a strategy
+    - description: Text Field
+            a simple description of the strategy
+    - implemented : Char Field
+            whether the strategy has been implemented in Axelrod python library or not
+            (this could possible change in the future and become Choice Field)
+    """
     strategy_name = models.CharField(max_length=300)
     description = models.TextField(blank=True)
     implemented = models.CharField(max_length=100, blank=True, null=True)
@@ -37,20 +72,35 @@ class Strategies(models.Model):
 
 
 class Article(models.Model):
-    """A class for the article
+    """
+    A module for representing an article
 
-      Parameters:
+    Attributes:
+    -----------
 
-      - title: Title (TextField)
-      - author: Name of Author (CharField)
-      - date: Published Year (IntegerField)
-      - abstract: Abstract (TextField)
-      - key: A unique citation (CharField)
-      - labels: Labels for both the tournament type and the strategies (CharField)
-      - pages: Number of pages (IntegerField)
-      - journal: Journal (TextField)
-      - ISBN: ISBN (CharField)
-      """
+    - title: Text Field
+        the title of the article
+    - author: Many to Many Field
+        a list of authors of the article
+    - date: Foreign Key Field
+        the year of publication
+    - abstract: Text Field
+        the abstract of the article
+     - key: Char Field
+        a unique key for citation. Looks similar to the Mendeley key
+    - labels: Many to Many Field
+        labels for the article
+    - pages: Integer Field
+        the pages the article is within the journal
+    - journal: Text Field
+        the journal the article was published
+    - notes: Text Field
+        personal notes for each article when I read it
+    - list_strategies: Many to Many Field
+        a list of strategies
+    - read: Boolean Field
+        true when I have read file, false otherwise
+    """
     title = models.TextField(blank=True)
     author = models.ManyToManyField(Author)
     date = models.ForeignKey(Year)
