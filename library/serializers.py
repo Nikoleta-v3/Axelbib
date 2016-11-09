@@ -64,10 +64,10 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
         article.save()
 
         for author in validated_data['author']:
-            article.author.add(Author.objects.create(name=author))
+            article.author.add(Author.objects.create(name=author['name']))
         for label in validated_data['labels']:
-            article.labels.add(Label.objects.create(label=label))
+            article.labels.add(Label.objects.create(label=label['label']))
         for strategy in validated_data['list_strategies']:
-            article.list_strategies.add(Strategies.objects.create(strategy_name=strategy))
+            article.list_strategies.add(Strategies.objects.create(strategy_name=strategy['strategy_name']))
         return article
 
