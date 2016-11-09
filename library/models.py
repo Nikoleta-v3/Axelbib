@@ -25,7 +25,10 @@ class Year(models.Model):
     - year: Positive Integer Field
 
     """
-    year = models.PositiveIntegerField(validators=[MaxValueValidator(9999)])
+    year = models.PositiveIntegerField(validators=[MaxValueValidator(9999)], unique=True)
+
+    class Meta:
+        ordering = ['year']
 
     def __str__(self):
         return "{}".format(self.year)
@@ -106,7 +109,7 @@ class Article(models.Model):
     date = models.ForeignKey(Year)
     abstract = models.TextField(blank=True)
     key = models.CharField(unique=True, max_length=20)
-    labels = models.ManyToManyField(Label)
+    labels = models.ManyToManyField(Label, blank=True)
     pages = models.CharField(max_length=10, blank=True)
     journal = models.TextField(blank=True)
     notes = models.TextField(blank=True)
