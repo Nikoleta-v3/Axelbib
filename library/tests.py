@@ -116,7 +116,7 @@ class TestNumberOfAppearance(TestCase):
         self.assertEqual(count_b_strategy, 1)
 
 
-class TestLogin(TestCase):
+class TestViews(TestCase):
     """A class that tests whether the login was successful"""
 
     def setUp(self):
@@ -128,7 +128,10 @@ class TestLogin(TestCase):
     def test_the_view(self):
         self.client = Client()
         logged_in = self.client.login(username='user', password='1234')
+
+        # check of the login was successful
         self.assertTrue(logged_in)
 
+        # check a request
         response = self.client.get('http://127.0.0.1:8000/admin/library/article/')
         self.assertEqual(response.status_code, 302)
