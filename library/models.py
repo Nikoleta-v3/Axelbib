@@ -12,6 +12,9 @@ class Author(models.Model):
     """
     name = models.CharField(max_length=200, )
 
+    class Meta:
+        ordering = ['name']
+
     def __str__(self):
         return self.name
 
@@ -47,6 +50,9 @@ class Label(models.Model):
     """
     label = models.CharField(max_length=100)
 
+    class Meta:
+        ordering = ['label']
+
     def __str__(self):
         return self.label
 
@@ -69,6 +75,9 @@ class Strategies(models.Model):
     strategy_name = models.CharField(max_length=300)
     description = models.TextField(blank=True)
     implemented = models.CharField(max_length=100, blank=True, null=True)
+
+    class Meta:
+        ordering = ['strategy_name']
 
     def __str__(self):
         return self.strategy_name

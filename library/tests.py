@@ -1,6 +1,8 @@
-from django.test import TestCase
+from django.test import TestCase, Client
 from hypothesis import given, settings, HealthCheck
 from hypothesis.extra.django.models import models
+from django.contrib.auth.models import User
+from django.urls import reverse
 
 from .models import Author, Year, Label, Strategies, Article
 
@@ -113,3 +115,20 @@ class TestNumberOfAppearance(TestCase):
         self.assertEqual(count_a_strategy, 2)
         self.assertEqual(count_b_strategy, 1)
 
+
+class TestLogin(TestCase):
+    """A class that tests whether the login was successful"""
+
+    def setUp(self):
+        """Create a dummy user"""
+        user = User.objects.create(username='user')
+        user.set_password('1234')
+        user.save()
+
+    def test_the_view(self):
+        self.client = Client()
+        logged_in = self.client.login(username='user', password='1234')
+        self.assertTrue(logged_in)
+
+        response = self.client.get('http://127.0.0.1:8000/admin/library/article/')
+        self.assertEqual(response.status_code, 302)

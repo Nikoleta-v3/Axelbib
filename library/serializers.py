@@ -43,7 +43,7 @@ class StrategiesSerializer(serializers.HyperlinkedModelSerializer):
 
 class ArticleSerializer(serializers.HyperlinkedModelSerializer):
 
-    author = AuthorSerializer(many=True,)
+    author = AuthorSerializer(many=True, )
     date = YearSerializer()
     labels = LabelsSerializer(many=True, )
     list_strategies = StrategiesSerializer(many=True)
