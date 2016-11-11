@@ -133,5 +133,24 @@ class TestViews(TestCase):
         self.assertTrue(logged_in)
 
         # check a request
-        response = self.client.get('http://127.0.0.1:8000/admin/library/article/')
+        response = self.client.get(
+            'http://127.0.0.1:8000/admin/library/article/')
         self.assertEqual(response.status_code, 302)
+        response = self.client.get(
+            'http://127.0.0.1:8000/admin/library/author/')
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(
+            'http://127.0.0.1:8000/admin/library/year/')
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(
+            'http://127.0.0.1:8000/admin/library/author/')
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(
+            'http://127.0.0.1:8000/admin/library/label/')
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(
+            'http://127.0.0.1:8000/admin/library/strategies/')
+        self.assertEqual(response.status_code, 302)
+        response = self.client.get(
+            'http://127.0.0.1:8000/admin/library/something/')
+        self.assertEqual(response.status_code, 404)
