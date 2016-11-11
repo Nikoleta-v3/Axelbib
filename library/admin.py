@@ -9,8 +9,17 @@ class ArticleAdmin(admin.ModelAdmin):
     filter_horizontal = ('author', 'list_strategies', 'labels', )
 
 
+class AuthorAdmin(admin.ModelAdmin):
+    model = Author
+    search_fields = ['name']
+
+
+class StrategiesAdmin(admin.ModelAdmin):
+    model = Strategies
+    search_fields = ['strategy_name']
+
 admin.site.register(Article, ArticleAdmin)
-admin.site.register(Author)
+admin.site.register(Author, AuthorAdmin)
 admin.site.register(Year)
 admin.site.register(Label)
-admin.site.register(Strategies)
+admin.site.register(Strategies, StrategiesAdmin)
