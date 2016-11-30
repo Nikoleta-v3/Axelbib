@@ -34,6 +34,14 @@ class LabelViewSet(viewsets.ModelViewSet):
     serializer_class = LabelsSerializer
 
 
+class KeyWordViewSet(viewsets.ModelViewSet):
+    """
+    View function for Key word objects.
+    """
+    queryset = Year.objects.all()
+    serializer_class = KeyWordSerializer
+
+
 class StrategiesViewSet(viewsets.ModelViewSet):
     """
     View function for Strategies objects.
