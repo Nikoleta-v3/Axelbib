@@ -149,7 +149,7 @@ class Article(models.Model):
     list_strategies = models.ManyToManyField(Strategies, blank=True)
     read = models.BooleanField(blank=True, default=False)
     key_word = models.ManyToManyField(KeyWord, blank=True)
-    provenance = models.CharField(max_length=20)
+    provenance = models.CharField(max_length=20, default='Manual')
 
     def __str__(self):
         return "{} - {}".format(self.key, self.title)
