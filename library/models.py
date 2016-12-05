@@ -10,7 +10,7 @@ class Author(models.Model):
     ----------
     - name: Character Field
     """
-    name = models.CharField(max_length=200, )
+    name = models.CharField(max_length=200)
 
     class Meta:
         ordering = ['name']
@@ -28,7 +28,7 @@ class Year(models.Model):
     - year: Positive Integer Field
 
     """
-    year = models.PositiveIntegerField(validators=[MaxValueValidator(9999)], unique=True)
+    year = models.PositiveIntegerField(validators=[MaxValueValidator(9999)])
 
     class Meta:
         ordering = ['year']
@@ -55,6 +55,25 @@ class Label(models.Model):
 
     def __str__(self):
         return self.label
+
+
+class KeyWord(models.Model):
+    """
+    A module for representing key words of the article.
+
+    Key words of the article.
+
+    Attributes:
+    ----------
+    - key_word: Char Field
+    """
+    key_word = models.CharField(max_length=100)
+
+    class Meta:
+        ordering = ['key_word']
+
+    def __str__(self):
+        return self.key_word
 
 
 class Strategies(models.Model):
@@ -98,8 +117,10 @@ class Article(models.Model):
         the year of publication
     - abstract: Text Field
         the abstract of the article
-     - key: Char Field
-        a unique key for citation. Looks similar to the Mendeley key
+    - key: Char Field
+        a key for citation. Looks similar to the Mendeley key
+    - unique_key: Char Field
+        a unique key. Hash of ('Author', 'Title', 'Year', 'Abstract')
     - labels: Many to Many Field
         labels for the article
     - pages: Integer Field
@@ -112,18 +133,23 @@ class Article(models.Model):
         a list of strategies
     - read: Boolean Field
         true when I have read file, false otherwise
+    - key_word: Many to Many Field
+        a list of key words for the article
     """
-    title = models.TextField(blank=True)
-    author = models.ManyToManyField(Author)
+    title = models.TextField()
+    author = models.ManyToManyField(Author, blank=True)
     date = models.ForeignKey(Year)
     abstract = models.TextField(blank=True)
-    key = models.CharField(unique=True, max_length=20)
+    key = models.CharField(max_length=20)
+    unique_key = models.CharField(max_length=32, unique=True)
     labels = models.ManyToManyField(Label, blank=True)
     pages = models.CharField(max_length=10, blank=True)
     journal = models.TextField(blank=True)
     notes = models.TextField(blank=True)
     list_strategies = models.ManyToManyField(Strategies, blank=True)
     read = models.BooleanField(blank=True, default=False)
+    key_word = models.ManyToManyField(KeyWord, blank=True)
+    provenance = models.CharField(max_length=20, default='Manual')
 
     def __str__(self):
         return "{} - {}".format(self.key, self.title)

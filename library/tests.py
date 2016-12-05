@@ -4,7 +4,7 @@ from hypothesis.extra.django.models import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-from .models import Author, Year, Label, Strategies, Article
+from .models import Author, Year, Label, Strategies, Article, KeyWord
 
 
 class TestingEntities(TestCase):
@@ -14,14 +14,17 @@ class TestingEntities(TestCase):
         year = Year.objects.create(year=1980)
         label = Label.objects.create(label='A simple label')
         strategy = Strategies.objects.create(strategy_name='Grumpy')
+        key_word = KeyWord.objects.create(key_word='Game Theory')
 
         # setting up the article
         article = Article(date=year, title='A simple title', abstract='Blank', key='Key', pages='1-2',
-                          journal='A Journal')
+                          journal='A Journal', unique_key='0129832',
+                          provenance='Manual', read=True)
         article.save()
         article.author.add(axel)
         article.labels.add(label)
         article.list_strategies.add(strategy)
+        article.key_word.add(key_word)
 
         self.assertEqual(axel.name, 'Axelrod')
         self.assertEqual(year.year, 1980)
@@ -38,22 +41,31 @@ class TestingEntities(TestCase):
         self.assertEqual(article.pages, '1-2')
         self.assertEqual(article.journal, 'A Journal')
         self.assertEqual(article.list_strategies.all()[0], strategy)
+        self.assertEqual(article.unique_key, '0129832')
+        self.assertEqual(article.provenance, 'Manual')
+        self.assertEqual(article.read, True)
+        self.assertEqual(key_word.key_word, 'Game Theory')
 
 
 class TestFieldType(TestCase):
-    """A class that randomly select an article object from the data base and tests the field types for each parameter"""
+    """A class that randomly select an article object from the data base and
+    tests the field types for each parameter
+    """
 
     @settings(suppress_health_check=[HealthCheck.filter_too_much, HealthCheck.too_slow])
-    @given(models(Article, date=models(Year)), models(Author), models(Label), models(Strategies))
-    def test_with_hypothesis(self, article, author, label, strategy):
+    @given(models(Article, date=models(Year)), models(Author), models(Label),
+           models(Strategies), models(KeyWord))
+    def test_with_hypothesis(self, article, author, label, strategy, key_word):
 
         article.author.add(author)
         article.labels.add(label)
         article.list_strategies.add(strategy)
+        article.key_word.add(key_word)
 
         self.assertTrue(author.article_set.filter(author=author).exists())
         self.assertTrue(label.article_set.filter(labels=label).exists())
         self.assertTrue(strategy.article_set.filter(list_strategies=strategy).exists())
+        self.assertTrue(key_word.article_set.filter(key_word=key_word).exists())
 
         self.assertEqual(type(article.title), str)
         self.assertEqual(type(article.date.year), int)
@@ -70,8 +82,8 @@ class TestFieldType(TestCase):
 
 
 class TestNumberOfAppearance(TestCase):
-    """A class which test the number of times the individual entities, such as Author, Year, Label etc, are being
-    called in article objects"""
+    """A class which test the number of times the individual entities, such as
+    Author, Year, Label etc, are bein gcalled in article objects"""
 
     def test_n_appearance(self):
 
@@ -84,14 +96,14 @@ class TestNumberOfAppearance(TestCase):
         b_strategy = Strategies.objects.create(strategy_name='Grumpy')
 
         # create first article
-        a_article = Article(date=a_year, key='Key A')
+        a_article = Article(date=a_year, key='Key A', unique_key='1234567890')
         a_article.save()
         a_article.author.add(a_name)
         a_article.labels.add(label)
         a_article.list_strategies.add(a_strategy)
 
         # create second article
-        b_article = Article(date=b_year, key='Key B')
+        b_article = Article(date=b_year, key='Key B', unique_key='1234567899')
         b_article.save()
         b_article.author.add(b_name)
         b_article.labels.add(label)
