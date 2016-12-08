@@ -7,5 +7,7 @@ library/migrations/
 .ipynb_checkpoints/
 library/access.py
 password.py
-scholar/
+scraping/failed_validation
+scraping/report
+scraping/Analysis of Results/data_set.json
 
