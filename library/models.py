@@ -143,7 +143,7 @@ class Article(models.Model):
     key = models.CharField(max_length=20)
     unique_key = models.CharField(max_length=32, unique=True)
     labels = models.ManyToManyField(Label, blank=True)
-    pages = models.CharField(max_length=10, blank=True)
+    pages = models.CharField(max_length=20, blank=True)
     journal = models.TextField(blank=True)
     notes = models.TextField(blank=True)
     list_strategies = models.ManyToManyField(Strategies, blank=True)

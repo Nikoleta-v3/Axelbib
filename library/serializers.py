@@ -62,6 +62,7 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
         # create the article
         article = Article(date=date, title=validated_data['title'],
                           abstract=validated_data['abstract'],
+                          unique_key=validated_data['unique_key'],
                           key=validated_data['key'],
                           pages=validated_data['pages'],
                           journal=validated_data['journal'],

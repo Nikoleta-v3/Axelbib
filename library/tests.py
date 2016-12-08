@@ -83,7 +83,7 @@ class TestFieldType(TestCase):
 
 class TestNumberOfAppearance(TestCase):
     """A class which test the number of times the individual entities, such as
-    Author, Year, Label etc, are bein gcalled in article objects"""
+    Author, Year, Label etc, are being called in article objects"""
 
     def test_n_appearance(self):
 
