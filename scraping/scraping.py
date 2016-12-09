@@ -17,13 +17,13 @@ def post_to_axelbib(post):
 
 def get_arguments(api, year, word, start, count):
     if api == 'springer':
-        arguments = [{'-a': None, '-t': wr, '-s': start,
-                      '-r': count, '-y': yr, '-b': None}]
+        arguments = [{'-a': None, '-t': word, '-s': start,
+                      '-r': count, '-y': year, '-b': None}]
     else:
-        arguments = [{'-a': None, '-t': wr, '-s': start,
-                      '-r': count, '-y': yr, '-b': None},
-                     {'-a': None, '-b': wr, '-s': start,
-                      '-r': count, '-y': yr, '-t': None}]
+        arguments = [{'-a': None, '-b': word, '-s': start,
+                      '-r': count, '-y': year, '-t': None},
+                     {'-a': None, '-t': word, '-s': start,
+                      '-r': count, '-y': year, '-b': None}]
     return arguments
 
 
@@ -62,25 +62,26 @@ for yr in years:
                         for record in article:
                             try:
                                 post = pp.to_json(record)
+
+                                if validate is True:
+                                    val = pp.validate_post(arg, post)
+                                if val is True or validate is False:
+                                    make_post = post_to_axelbib(post)
+                                    with open('report', 'a') as textfile:
+                                        textfile.write(
+                                            '{}--{}--{}--({})\n'.format(
+                                                make_post, post['key'], url,
+                                                post['unique_key']))
+
+                                else:
+                                    with open('failed_validation', 'a') as textfile:
+                                        textfile.write('{}--{}--({})\n'.format(
+                                                            post['key'], url,
+                                                            post['unique_key']))
+                                start += 10
                             except:
                                 KeyError()
-                            if validate is True:
-                                val = pp.validate_post(arg, post)
-                            if val is True or validate is False:
-                                make_post = post_to_axelbib(post)
-                                with open('report', 'a') as textfile:
-                                    textfile.write(
-                                        '{}--{}--{}--({})\n'.format(
-                                            make_post, post['key'], url,
-                                            post['unique_key']))
-
-                            else:
-                                with open('failed_validation', 'a') as textfile:
-                                    textfile.write('{}--{}--({})\n'.format(
-                                                        post['key'], url,
-                                                        post['unique_key']))
-                            start += 10
-                pbar.update(1)
+                    pbar.update(1)
 
 
 
