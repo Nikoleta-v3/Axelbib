@@ -7,6 +7,7 @@ class ArticleAdmin(admin.ModelAdmin):
     model = Article
     search_fields = ['title', 'key']
     filter_horizontal = ('author', 'list_strategies', 'labels', 'key_word')
+    list_filter = ('provenance', 'labels')
 
 
 class AuthorAdmin(admin.ModelAdmin):

@@ -3,25 +3,25 @@ from rest_framework import serializers
 
 
 class AuthorSerializer(serializers.HyperlinkedModelSerializer):
-    papers_on_this_db = serializers.SerializerMethodField()
+    # papers_on_this_db = serializers.SerializerMethodField()
 
     class Meta:
         model = Author
-        fields = "__all__"
+        fields = ["name"]
 
-    def get_papers_on_this_db(self, obj):
-        return obj.article_set.count()
+#    def get_papers_on_this_db(self, obj):
+#        return obj.article_set.count()
 
 
 class YearSerializer(serializers.HyperlinkedModelSerializer):
-    papers_on_specific_year = serializers.SerializerMethodField()
+    # papers_on_specific_year = serializers.SerializerMethodField()
 
     class Meta:
         model = Year
-        fields = "__all__"
+        fields = ["year"]
 
-    def get_papers_on_specific_year(self, obj):
-        return obj.article_set.count()
+#    def get_papers_on_specific_year(self, obj):
+#        return obj.article_set.count()
 
 
 class LabelsSerializer(serializers.HyperlinkedModelSerializer):
@@ -55,7 +55,8 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
                   'pages', 'journal', 'labels', 'read', 'key_word',
                   'provenance', 'list_strategies', 'score')
 
-    def create(self, validated_data):
+    @staticmethod
+    def create(validated_data):
 
         # Create the new article attributes
         date = Year.objects.create(year=validated_data['date'].get("year"))
