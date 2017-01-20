@@ -17,6 +17,7 @@ password.py
 scraping/report
 scraping/Analysis of Results/data_set.json
 scraping/failed_validation
+scraping/Analysis of Results/tools.ipynb
 scraping/Analysis of Results/Untitled.ipynb
 scraping/Analysis of Results/__pycache__/
 scraping/Analysis of Results/data.json
