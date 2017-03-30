@@ -1,11 +1,29 @@
 .idea/
+.hypothesis/
+
 Axelbib/__pycache__/
+__pycache__/
+
+.ipynb_checkpoints/
+
 db.sqlite3
+
 library/__pycache__/
 library/migrations/
-.hypothesis/
-.ipynb_checkpoints/
 library/access.py
-password.py
-scholar/
 
+password.py
+
+scraping/report
+scraping/Analysis of Results/data_set.json
+scraping/failed_validation
+scraping/Analysis of Results/tools.ipynb
+scraping/Analysis of Results/Untitled.ipynb
+scraping/Analysis of Results/__pycache__/
+scraping/Analysis of Results/data.json
+scraping/Untitled.ipynb
+scraping/__pycache__/
+scraping/Notes.ipynb
+scraping/articles/
+
+Handeling DB.ipynb

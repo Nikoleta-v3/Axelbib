@@ -5,8 +5,10 @@ from .models import Article, Author, Year, Label, Strategies, KeyWord
 
 class ArticleAdmin(admin.ModelAdmin):
     model = Article
-    search_fields = ['title', 'key']
+    search_fields = ['title', 'key', 'abstract']
     filter_horizontal = ('author', 'list_strategies', 'labels', 'key_word')
+    list_filter = ('provenance', 'labels', 'read')
+    ordering = ('date',)
 
 
 class AuthorAdmin(admin.ModelAdmin):

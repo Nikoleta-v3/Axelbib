@@ -136,20 +136,21 @@ class Article(models.Model):
     - key_word: Many to Many Field
         a list of key words for the article
     """
-    title = models.TextField()
+    title = models.TextField(blank=True)
     author = models.ManyToManyField(Author, blank=True)
-    date = models.ForeignKey(Year)
+    date = models.ForeignKey(Year, null=True, blank=True)
     abstract = models.TextField(blank=True)
-    key = models.CharField(max_length=20)
+    key = models.CharField(max_length=50, blank=True)
     unique_key = models.CharField(max_length=32, unique=True)
     labels = models.ManyToManyField(Label, blank=True)
-    pages = models.CharField(max_length=10, blank=True)
+    pages = models.CharField(max_length=20, blank=True)
     journal = models.TextField(blank=True)
     notes = models.TextField(blank=True)
     list_strategies = models.ManyToManyField(Strategies, blank=True)
     read = models.BooleanField(blank=True, default=False)
     key_word = models.ManyToManyField(KeyWord, blank=True)
     provenance = models.CharField(max_length=20, default='Manual')
+    score = models.CharField(max_length=20, blank=True)
 
     def __str__(self):
         return "{} - {}".format(self.key, self.title)
